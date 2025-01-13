@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_i18n/flutter_i18n.dart';
+import 'package:revanced_manager/gen/strings.g.dart';
 import 'package:revanced_manager/utils/about_info.dart';
 
 class AboutWidget extends StatefulWidget {
-  const AboutWidget({Key? key, this.padding}) : super(key: key);
+  const AboutWidget({super.key, this.padding});
 
   final EdgeInsetsGeometry? padding;
 
@@ -29,26 +29,23 @@ class _AboutWidgetState extends State<AboutWidget> {
                         text: 'Version: ${snapshot.data!['version']}\n'
                             'Model: ${snapshot.data!['model']}\n'
                             'Android Version: ${snapshot.data!['androidVersion']}\n'
-                            'Arch: ${snapshot.data!['arch']}\n',
+                            '${snapshot.data!['supportedArch'].length > 1 ? 'Supported Archs' : 'Supported Arch'}: ${snapshot.data!['supportedArch'].join(", ")}\n',
                       ),
                     );
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: I18nText('settingsView.snackbarMessage'),
+                        content: Text(t.settingsView.snackbarMessage),
                         backgroundColor:
                             Theme.of(context).colorScheme.secondary,
                       ),
                     );
                   }
                 : null,
-            title: I18nText(
-              'settingsView.aboutLabel',
-              child: const Text(
-                '',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                ),
+            title: Text(
+              t.settingsView.aboutLabel,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w500,
               ),
             ),
             subtitle: snapshot.hasData
@@ -84,7 +81,9 @@ class _AboutWidgetState extends State<AboutWidget> {
                         ),
                       ),
                       Text(
-                        'Arch: ${snapshot.data!['arch']}',
+                        snapshot.data!['supportedArch'].length > 1
+                            ? 'Supported Archs: ${snapshot.data!['supportedArch'].join(", ")}'
+                            : 'Supported Arch: ${snapshot.data!['supportedArch']}',
                         style: const TextStyle(
                           fontSize: 13,
                           fontWeight: FontWeight.w300,
